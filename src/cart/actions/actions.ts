@@ -3,7 +3,7 @@
 import { CartItem } from '@/interfaces/cart.interface';
 import * as api from '../../api';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/config/authOptions';
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 
 export const getUserSessionServer = async () => {
     const session = await getServerSession(authOptions);
