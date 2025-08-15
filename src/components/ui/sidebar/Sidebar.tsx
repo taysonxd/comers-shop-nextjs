@@ -2,14 +2,12 @@
 
 import { useUiStore } from "@/store"
 import clsx from "clsx"
-import Link from "next/link"
-import { IoCloseOutline, IoLogInOutline, IoLogOutOutline, IoPeopleOutline, IoPersonOutline, IoSearchOutline, IoShirtOutline, IoTicketOutline } from "react-icons/io5"
+import { IoCloseOutline } from "react-icons/io5"
 import { LogoutButton } from "../logout-button/LogoutButton"
 
 export const Sidebar = () => {
 
     const { isSideMenuOpen, closeSideMenu } = useUiStore();
-    
     
     return (
         <div>

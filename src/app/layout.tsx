@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import "./globals.css";
-import { geistMono, geistSans } from "../config/fonts";
-import { Footer } from "@/components";
 import { AuthProvider } from "./auth/components/AuthProvider";
 
+import "./globals.css";
+
+import { geistMono, geistSans } from "../config/fonts";
 
 export const metadata: Metadata = {
-  title: "Teslo Shop",
+  title: "Comers Shop",
   description: "Tienda virtual de productos",
 };
 

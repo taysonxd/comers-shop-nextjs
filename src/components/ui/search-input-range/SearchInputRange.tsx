@@ -37,7 +37,6 @@ export const SearchInputRange = () => {
         
         if (minVal < MIN || maxVal > MAX) return;
         
-        // Enforce minimum gap
         if (maxVal - minVal < MIN_GAP) {
             if (values[0] !== minVal) {
                 minVal = maxVal - MIN_GAP;
@@ -45,6 +44,7 @@ export const SearchInputRange = () => {
                 maxVal = minVal + MIN_GAP;
             }
         }
+        
         setValues([minVal, maxVal]);
         handleSearch([minVal, maxVal])
     };
