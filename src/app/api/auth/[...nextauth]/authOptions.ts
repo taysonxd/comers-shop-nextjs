@@ -29,7 +29,8 @@ export const authOptions = {
           }).then(res => res.json());
 
           const { data } = response;
-                    
+          console.log({data});
+            
           if (data.accessToken && data.refreshToken) {
             setAuthCookies(data.accessToken, data.refreshToken);
             token.id = data.user.id;

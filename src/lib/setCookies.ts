@@ -1,4 +1,6 @@
 
+export const dynamic = 'force-dynamic';
+
 import { env } from '@/config/env';
 import { cookies } from 'next/headers';
 
@@ -9,7 +11,7 @@ export async function setAuthCookies(accessToken: string, refreshToken: string) 
   const options = {
     httpOnly: true,
     secure: isProd,
-    sameSite: 'lax' as const,
+    sameSite: isProd ? 'none' as const : 'lax' as const,
     path: '/',
     domain,
   };
