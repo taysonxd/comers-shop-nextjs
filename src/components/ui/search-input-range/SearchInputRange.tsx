@@ -96,9 +96,10 @@ export const SearchInputRange = () => {
                                 {children}
                             </div>
                         )}
-                        renderThumb={({ props, index }) => (
+                        renderThumb={({ props: { key, ...restProps}, index }) => (
                             <div
-                                {...props}
+                                {...restProps}
+                                key={index}
                                 className="w-3 h-3 bg-blue-500 rounded-full -mt-0 flex items-center justify-center shadow-md"
                             />                                            
                         )}

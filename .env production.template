@@ -1,0 +1,17 @@
+
+NODE_ENV=production
+DATABASE_URL="postgresql://user:password@localhost:port/database?schema=public"
+BACKEND_URL=http://localhost:3001
+NEXTAUTH_URL=http://localhost:3000
+
+# Para generar el secret requerido por nextauth ir al siguiente enlace y copiar y pegar el secret que aparece
+# https://generate-secret.vercel.app/32
+NEXTAUTH_SECRET=""
+
+# Para generar el secret requerido por JWT ir al siguiente enlace
+# https://jwtsecrets.com/
+JWT_SECRET=""
+
+# Variables requeridas para iniciar el flujo OAuth de google en la aplicacion desde el frontend
+GOOGLE_CLIENT_ID=""
+GOOGLE_CLIENT_SECRET=""

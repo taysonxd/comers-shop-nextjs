@@ -24,7 +24,7 @@ export default async function ShopPage({ searchParams }: Props) {
         className="mb-2"
       />
 
-      <div className="flex mb-10 gap-5">
+      <div className="flex flex-col sm:flex-row mb-10 gap-5">
         <SearchInput />
         <SearchInputRange />
         <div className="flex ml-auto">
@@ -34,7 +34,9 @@ export default async function ShopPage({ searchParams }: Props) {
 
       <ProductosGrid products={products} />
 
-      <Pagination totalPages={ Math.ceil(total/limit) }/>
+      {
+        (Math.ceil(total/limit) > 1) && ( <Pagination totalPages={ Math.ceil(total/limit) }/> )
+      }
     </>
   );
 }

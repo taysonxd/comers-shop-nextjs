@@ -1,5 +1,6 @@
 
 export * from './products/products-grid/ProductosGrid';
+export * from './products/no-results/NoResults';
 
 export * from './product/quantity-selector/QuantitySelector';
 

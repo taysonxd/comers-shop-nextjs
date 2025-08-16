@@ -4,14 +4,14 @@ import { Footer, Sidebar, TopMenu } from "../../components";
 export default async function ShopLayout({ children }: { children: React.ReactNode; }) {
 
   const cartItems = await getCartItems();
-    
+        
   return (
     <div className="min-h-screen">
 
       <TopMenu cartItems={ cartItems } />
       <Sidebar />
 
-      <div className="px-0 sm:px-10">
+      <div className="px-2 sm:px-10">
         { children }
       </div>
 

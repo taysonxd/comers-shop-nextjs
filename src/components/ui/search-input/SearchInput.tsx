@@ -24,7 +24,7 @@ export const SearchInput = () => {
             <span className='font-light text-xl'>Busqueda</span>
             <div className="relative">                    
                 <input
-                    className="w-[400px] bg-gray-50 rounded pl-3 pr-10 py-1 border-b-2 text-xl border-gray-200 focus:outline-none focus:border-blue-500"
+                    className="w-[100%] bg-gray-50 rounded pl-3 pr-10 py-1 border-b-2 text-xl border-gray-200 focus:outline-none focus:border-blue-500"
                     type="text"
                     placeholder="Titulo o descripción"
                     onChange={(e) => {

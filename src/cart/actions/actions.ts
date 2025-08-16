@@ -7,14 +7,17 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 
 export const getUserSessionServer = async () => {
     const session = await getServerSession(authOptions);
-
+             
     return session?.user;
 }
 
 export const getCartItems = async ():Promise<CartItem[]> => {    
 
     const userId = ( await getUserSessionServer() as any)?.id ?? null;
-        
+                
+    if( !userId )
+        return [];
+
     try {
         const cartItems = api.getShoppingCart( userId );
                 
@@ -26,7 +29,7 @@ export const getCartItems = async ():Promise<CartItem[]> => {
 }
 
 export const updateCartItems = async (itemId: string, quantity: number = 1) => {    
-    try {
+    try {                
         const cartItem = await api.updateQuantityCartItem(itemId, quantity)
     
         return cartItem
@@ -39,7 +42,7 @@ export const updateCartItems = async (itemId: string, quantity: number = 1) => {
 export const setProductToCart = async (productId: number, quantity: number = 1) => {    
     try {
         const cartItem = await api.addItemCart(productId, quantity)
-    
+                
         return cartItem
     } catch(error) {
         console.error(error);

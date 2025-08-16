@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 EcomSecure — Ecommerce fullstack con autenticación backend-driven
 
-## Getting Started
+Comers Shop es una aplicación ecommerce construida con Next.js 15 y Express, que implementa un sistema de autenticación robusto y modular. Los tokens se manejan exclusivamente en el backend mediante cookies, con rotación segura y validación server-side. El frontend aprovecha el entorno server first para flujos desacoplados y seguros.
 
-First, run the development server:
+---
+
+## 🧰 Tecnologías utilizadas
+
+| Tecnología     | Justificación breve |
+|----------------|---------------------|
+| **Typescript** | Para llevar control preciso de los datos que se mueven a traves de la aplicacion y permitir unaa mejor depuracion de codigo y errores |
+| **Next.js 15** | Metodologia server-first, sin exposición de tokens al cliente y servido de data SSR para mejor rendimiento en SEO |
+| **NextAuth**   | Ofrece robustos metodos de autenticacion por credenciales y OAuth con una estructura centralizada y sencilla estructurar |
+| **TailwindCSS**| Framework CSS de sencilla implementacion y uso con clases concisas y cortas para controlar estilos |
+| **Zustand**    | Manejador de estado global moderno de integracion y uso sencillo acorde al alcance requerido |
+
+---
+
+## 🛠️ Instrucciones para levantar el proyecto (local y producción)
+
+### 1. Requerimientos previos
+
+- Node.js ≥ 18
+- Npm
+- PM2
+
+### 2. Instalación de dependencias
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Configuración de variables de entorno
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Archivos de entorno disponibles en la raiz del proyecto con las variables de entorno requeridas para levantar la aplicación
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+Local
+.env.local.template
 
-## Learn More
+Produccion
+.env.production.template
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 4. Inicio del servidor de frontend
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Con el backend previamene en linea se procede a levantar la aplicación segun el entorno
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+#Entorno de desarrollo
+    npm run dev
+#Entorno de desarrollo
 
-## Deploy on Vercel
+#Entorno de produccion
+    npm run build
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    #Iniciar la aplicacion usando PM2 
+    pm2 start npm --name frontend -- run start
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    #Guardar configuración de PM2
+    #Para el reinicio automático de los procesos si el servidor se reinicia
+    pm2 save
+    pm2 startup
+
+    #Para verificar estado y logs de los procesos levantados
+    pm2 list
+    pm2 logs
+#Entorno de produccion
+
+```
+
+### 6. Rutas disponibles
+
+```bash
+/api/auth/signin - #Pantalla de autenticación generada por NextAuth con autenticacion OAuth con google
+    
+/ # Pagina raiz de la aplicacion con el listado de productos general
+/category/[slug] # Pagina que muestra los articulos segun las categorias existentes de los productos
+/cart # Pagina del carrito compra
+/checkout # Pagina de checkout para confirmar la orden
+/orders/[id] # Pagina de detalle de orden generada luego de concretar la orden
+/orders # Pagina con el listado de ordenes realizadas con el usuario
+    
+```
+
+### 7. Enlace de demo actualmente en linea
+
+[https://comers-shop-nextjs.vercel.app/](https://comers-shop-nextjs.vercel.app/)

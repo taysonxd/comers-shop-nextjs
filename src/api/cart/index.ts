@@ -2,50 +2,58 @@ import { env } from "@/config/env";
 import { fetchWithSession } from "../helper";
 import { CartItem } from "@/interfaces/cart.interface";
 
-export const getShoppingCart = ( userId: string | null ): Promise<CartItem[]> => {        
-    console.log(`${env.BACKEND_URL}/api/cart${ userId ? `?userId=${userId}` : '' }`);
-    
-    const cartItems = fetch(`${env.BACKEND_URL}/api/cart${ userId ? `?userId=${userId}` : '' }`, {
+export const getShoppingCart = async ( userId: string | null ): Promise<CartItem[]> => {        
+        
+    const response = await fetch(`${env.BACKEND_URL}/api/cart${ userId ? `?userId=${userId}` : '' }`, {
         method: 'GET',
-    }).then(res => res.json())
+    }).then(res => res.json());
+                                        
+    if (!response.success)
+        throw new Error(response.message);
 
-    return cartItems
+    return response.data;
 }
 
-export const updateQuantityCartItem = ( itemId: string, quantity: number ): Promise<any> => {
+export const updateQuantityCartItem = async ( itemId: string, quantity: number ): Promise<any> => {
 
     const body = {        
         id: itemId,
         quantity
     };        
         
-    const itemCart = fetchWithSession(`${env.BACKEND_URL}/api/cart`, {
-        method: 'PUT',
-        body: JSON.stringify(body),
+    const response = await fetchWithSession(`${env.BACKEND_URL}/api/cart`, {
+        method: 'PUT',        
         headers: {
             'Content-Type': 'application/json'
-        }
-    }).then(res => res.json())
+        },
+        body: JSON.stringify(body),
+    }).then(res => res.json());
+                
+    if (!response.success)
+        throw new Error(response.message);
 
-    return itemCart
+    return response.data;
 }
 
-export const addItemCart = ( productId: number, quantity: number ): Promise<any> => {
+export const addItemCart = async ( productId: number, quantity: number ): Promise<any> => {
 
     const body = {        
         productId,
         quantity
     };
         
-    const itemCart = fetchWithSession(`${env.BACKEND_URL}/api/cart`, {
+    const response = await fetchWithSession(`${env.BACKEND_URL}/api/cart`, {
         method: 'POST',
         body: JSON.stringify(body),
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(res => res.json())
+    }).then(res => res.json());
+        
+    if (!response.success)
+        throw new Error(response.message);
 
-    return itemCart
+    return response.data;
 }
 
 export const deleteItemCart = async (id: string): Promise<boolean> => {
@@ -55,7 +63,10 @@ export const deleteItemCart = async (id: string): Promise<boolean> => {
         headers: {
             'Content-Type': 'application/json'
         }
-    })    
-    
-    return response.ok
+    }).then(res => res.json());
+                
+    if (!response.success)
+        throw new Error(response.message);
+
+    return response.data;
 }

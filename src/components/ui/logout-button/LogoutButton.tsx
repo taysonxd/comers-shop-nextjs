@@ -1,13 +1,22 @@
 'use client'
 
+import { destroyBackendSession } from '@/app/actions/auth/auth-actions';
+import { useCartStore } from '@/store/cart/cart-store';
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { CiLogout } from 'react-icons/ci'
 import { IoLogOut, IoShieldOutline } from 'react-icons/io5';
 
 export const LogoutButton = () => {
 
-    const { data: session, status } = useSession();
-                
+    const { status } = useSession();
+    const { clearCart } = useCartStore();
+    
+    const onLogoutSession = async () => {
+        await destroyBackendSession();
+        clearCart();
+        signOut();
+    }
+
     if( status === 'loading')
         return (
             <button className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
@@ -29,7 +38,7 @@ export const LogoutButton = () => {
 
     return (
         <button
-            onClick={() => signOut()}
+            onClick={onLogoutSession}
             className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group"
         >
             <CiLogout />

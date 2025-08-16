@@ -3,10 +3,11 @@
 import { setProductToCart } from '@/cart/actions/actions'
 import { Product } from '@/interfaces/product.interface'
 import { useCartStore } from '@/store/cart/cart-store'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 
-import { useRouter } from 'next/navigation'
-import { IoAddCircleOutline, IoStarOutline, IoStarSharp, IoTrashOutline } from 'react-icons/io5'
+import { redirect, useRouter } from 'next/navigation'
+import { IoCartOutline, IoStarSharp } from 'react-icons/io5'
 
 interface Props {
     product: Product
@@ -14,24 +15,30 @@ interface Props {
 
 export const ProductGridItem = ({ product }: Props) => {
 
+    const { status } = useSession();
     const router = useRouter();
         
     const cartItems = useCartStore(state => state.items) ?? []
     const { setCartItems, setTotalItems } = useCartStore();    
     
     const onAddToCart = async () => {
+                
+        if (status === 'unauthenticated')
+            redirect('/api/auth/signin');
+
         const cartItem = await setProductToCart(product.id!);
                 
         if( !cartItem ) return;   
         
         const updatedCartItems = [ cartItem, ...cartItems?.filter(item => item.id !== cartItem.id ) ];
+        
         setCartItems( updatedCartItems )
-        setTotalItems( updatedCartItems.reduce((prevValue, currentValue) => prevValue + currentValue.quantity , 0) );
+        setTotalItems( updatedCartItems.reduce((prevValue, currentValue) => prevValue + currentValue.quantity , 0) );        
         router.refresh();
     }
         
     return (
-        <div className='rounded-md overflow-hidden fade-in'>            
+        <div className='flex flex-col rounded-md overflow-hidden fade-in items-center'>
             <Image
                 src={product.image}
                 alt="Product image"
@@ -67,18 +74,18 @@ export const ProductGridItem = ({ product }: Props) => {
                         <span className='font-semibold ml-1'>
                             ({ product.rating.count })
                         </span>
-                    </div>
-                </div>
-
-                <div className="flex items-center">
-                    <span>
                         <button
                             onClick={ onAddToCart }
-                            className="cursor-pointer focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            className="ml-auto flex gap-1 items-center border-1 border-blue-300 bg-blue-600 p-1 rounded cursor-pointer text-white hover:bg-transparent hover:text-black hover:border-black transition-all"
                         >
-                            <IoAddCircleOutline size={30} />
-                        </button>                    
-                    </span>
+                            <span className='flex'>
+                                Añadir
+                            </span>
+                            <span className="cursor-pointer font-medium rounded-lg text-sm text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">   
+                                <IoCartOutline size={20} />
+                            </span>                    
+                        </button>
+                    </div>
                 </div>
             </div>
 
