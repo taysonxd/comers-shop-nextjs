@@ -9,7 +9,7 @@ export async function getValidAccessToken(): Promise<string | null> {
   if (!accessToken && !refreshToken) return null;   
   
   const isExpired = checkIfExpired(accessToken!);
-
+    
   if (!isExpired) return accessToken!;
   
   const res = await fetch(`${process.env.AUTH_API}/auth/refresh`, {
@@ -43,7 +43,7 @@ export async function getValidAccessToken(): Promise<string | null> {
 
 function checkIfExpired(token: string): boolean {
   try {
-    const payload = jwt.decode(token) as { exp: number };
+    const payload = jwt.decode(token) as { exp: number };        
     return payload.exp * 1000 < Date.now();
   } catch {
     return true;

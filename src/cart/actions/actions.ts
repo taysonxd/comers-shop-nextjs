@@ -43,7 +43,7 @@ export const setProductToCart = async (productId: number, quantity: number = 1) 
     try {
         const cartItem = await api.addItemCart(productId, quantity)
                 
-        return cartItem
+        return cartItem;
     } catch(error) {
         console.error(error);
         return null;

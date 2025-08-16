@@ -27,8 +27,8 @@ export const updateQuantityCartItem = async ( itemId: string, quantity: number )
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(body),
-    }).then(res => res.json());
-                
+    })
+                                    
     if (!response.success)
         throw new Error(response.message);
 
@@ -48,8 +48,8 @@ export const addItemCart = async ( productId: number, quantity: number ): Promis
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(res => res.json());
-        
+    })
+
     if (!response.success)
         throw new Error(response.message);
 
@@ -63,8 +63,8 @@ export const deleteItemCart = async (id: string): Promise<boolean> => {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(res => res.json());
-                
+    });
+            
     if (!response.success)
         throw new Error(response.message);
 
