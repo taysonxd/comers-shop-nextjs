@@ -1,6 +1,6 @@
 'use client'
 
-import { destroyBackendSession } from '@/app/actions/auth/auth-actions';
+import { destroyBackendSession } from '@/auth/actions/auth-actions';
 import { useCartStore } from '@/store/cart/cart-store';
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { CiLogout } from 'react-icons/ci'

@@ -2,8 +2,6 @@ import { SessionStrategy } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 import { env } from "@/config/env";
-import { setAuthCookies } from "@/lib/setCookies";
-import { serialize } from 'cookie';
 
 export const authOptions = {    
     // Configure one or more authentication providers
