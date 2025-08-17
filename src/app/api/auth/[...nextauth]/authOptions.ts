@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 
 import { env } from "@/config/env";
 import { setAuthCookies } from "@/lib/setCookies";
+import { serialize } from 'cookie';
 
 export const authOptions = {    
     // Configure one or more authentication providers
@@ -16,7 +17,8 @@ export const authOptions = {
     session: {
       strategy: 'jwt' as SessionStrategy,
     },    
-    callbacks: {
+    callbacks: {      
+
       async jwt({ token, account }: { token: any, account: any }) {
         
         if (account?.id_token) {
@@ -29,12 +31,12 @@ export const authOptions = {
           }).then(res => res.json());
 
           const { data } = response;
-          console.log({data});
-            
+                           
           if (data.accessToken && data.refreshToken) {
-            setAuthCookies(data.accessToken, data.refreshToken);
-            token.id = data.user.id;
-          }
+            token.accessToken = data.accessToken;
+            token.refreshToken = data.refreshToken;
+            token.id = data.user.id;          
+          }             
         }                    
                 
         return token;
@@ -45,6 +47,12 @@ export const authOptions = {
           session.user.id = token.id;
         }
         return session;
+      },
+      async redirect({ url, baseUrl }: {url: any; baseUrl:any}) {        
+        if (url.startsWith(baseUrl))
+          return `${baseUrl}/api/login-callback`;
+        
+        return baseUrl;
       },      
     }
   }

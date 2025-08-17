@@ -14,7 +14,7 @@ export async function destroyBackendSession() {
             'Content-Type': 'application/json',
             "Cookie": `refresh-token=${refreshToken}`,
         }
-    }).then(res => res.json());
+    });
             
     if (!response.success)
         throw new Error(response.message);

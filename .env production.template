@@ -8,10 +8,6 @@ NEXTAUTH_URL=http://localhost:3000
 # https://generate-secret.vercel.app/32
 NEXTAUTH_SECRET=""
 
-# Para generar el secret requerido por JWT ir al siguiente enlace
-# https://jwtsecrets.com/
-JWT_SECRET=""
-
 # Variables requeridas para iniciar el flujo OAuth de google en la aplicacion desde el frontend
 GOOGLE_CLIENT_ID=""
 GOOGLE_CLIENT_SECRET=""
