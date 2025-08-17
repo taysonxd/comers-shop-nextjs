@@ -14,7 +14,7 @@ export async function fetchWithSession(url: string, options: RequestInit = {}): 
     ...options,
     credentials: 'include',
     headers: {
-      "Cookie": `access-token=${accessToken}`,
+      "Cookie": `access_token=${accessToken}`,
       ...options.headers,      
     },
   });

@@ -12,7 +12,7 @@ export async function destroyBackendSession() {
         method: 'POST',        
         headers: {
             'Content-Type': 'application/json',
-            "Cookie": `refresh-token=${refreshToken}`,
+            "Cookie": `refresh_token=${refreshToken}`,
         }
     });
             
