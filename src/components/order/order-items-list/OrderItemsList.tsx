@@ -63,21 +63,22 @@ export const OrderItemsList = () => {
             {/* Items */}
             {
                 cartItemsStore.map(({product, quantity, id}) => (
-                    <div key={product!.id} className='flex my-1'>
-                        <Image
-                            src={product!.image}
-                            alt={product!.title}
-                            width={100}
-                            height={100}
-                            style={{
-                            width: '100px',
-                            height: '100px' 
-                            }}
-                            className='mr-5 rounded'
-                        />
+                    <div key={product!.id} className='flex mb-5'>
+                        <div className="w-[150px]">
+                            <Image
+                                src={product!.image}
+                                alt={product!.title}
+                                width={100}
+                                height={100}                            
+                                style={{
+                                    width: '100px',
+                                    height: '100px' 
+                                }}                                
+                            />
+                        </div>
 
-                        <div>
-                            <p>{ product!.title }</p>
+                        <div className="flex w-full flex-col">
+                            <p className="font-semibold">{ product!.title }</p>
                             <p>${ product!.price } * { quantity }</p>
                             <p className='font-bold'>Subtotal: ${ Number(product!.price) * quantity }</p>
                         </div>

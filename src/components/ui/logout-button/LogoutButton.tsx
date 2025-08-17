@@ -19,9 +19,9 @@ export const LogoutButton = () => {
 
     if( status === 'loading')
         return (
-            <button className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
-                <IoShieldOutline />
-                <span className="group-hover:text-gray-700">...Espere</span>
+            <button className="px-4 py-3 cursor-pointer flex items-center space-x-4 rounded-md text-gray-500 group">
+                <IoShieldOutline size={25} />
+                <span className="group-hover:text-gray-800 font-semibold text-xl">...Espere</span>
             </button>
         )
 
@@ -29,20 +29,20 @@ export const LogoutButton = () => {
         return (
             <button
                 onClick={() => signIn()}
-                className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group"
+                className="px-4 py-3 cursor-pointer flex items-center space-x-2 rounded-md text-gray-500 group"
             >
-                <IoLogOut />
-                <span className="group-hover:text-gray-700">Ingresar</span>
+                <IoLogOut size={25} />
+                <span className="group-hover:text-gray-800 font-semibold text-xl">Ingresar</span>
             </button>
         )
 
     return (
         <button
             onClick={onLogoutSession}
-            className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group"
+            className="px-4 py-3 cursor-pointer flex items-center space-x-2 rounded-md text-gray-500 group"
         >
-            <CiLogout />
-            <span className="group-hover:text-gray-700">Logout</span>
+            <CiLogout size={25} />
+            <span className="group-hover:text-gray-800 font-semibold text-xl">Logout</span>
         </button>
     )
 }

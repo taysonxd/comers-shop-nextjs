@@ -65,18 +65,19 @@ export const CartItemsList = () => {
             {/* Items */}
             {
                 cartItemsStore.map(({product, quantity, id}) => (
-                    <div key={product!.id} className='flex mb-5 p-3 shadow-2xl rounded'>                    
-                        <Image
-                            src={product!.image}
-                            alt={product!.title}
-                            width={100}
-                            height={100}
-                            style={{
-                            width: '100px',
-                            height: '100px' 
-                            }}
-                            className='mr-5 rounded'
-                        />
+                    <div key={product!.id} className='flex mb-5 p-3 shadow-lg rounded'>                    
+                        <div className="w-[150px]">
+                            <Image
+                                src={product!.image}
+                                alt={product!.title}
+                                width={100}
+                                height={100}                            
+                                style={{
+                                    width: '100px',
+                                    height: '100px' 
+                                }}                                
+                            />
+                        </div>
 
                         <div className="flex w-full flex-col justify-between">
                             <div>
