@@ -1,6 +1,6 @@
 // app/api/auth/post-login/route.ts
 import { getToken } from "next-auth/jwt";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
 const COOKIE_OPTIONS = {
@@ -10,7 +10,7 @@ const COOKIE_OPTIONS = {
   path: "/",
 };
 
-export async function GET(req: NextApiRequest) {
+export async function GET(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
   const cookieStore = await cookies();
