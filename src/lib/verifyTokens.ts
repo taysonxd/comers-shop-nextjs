@@ -12,19 +12,20 @@ export async function getValidAccessToken(): Promise<string | null> {
     
   if (!isExpired) return accessToken!;
   
-  const res = await fetch(`${process.env.AUTH_API}/auth/refresh`, {
+  const res = await fetch(`${process.env.BACKEND_URL}/auth/refresh_access_token`, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${refreshToken}`,
+      "Cookie": `refresh_token=${refreshToken}`,      
     },
     cache: 'no-store',
   });
 
-  if (!res.ok) return null;
+  if (!res.ok)
+    throw new Error("Token cannot be created");    
 
-  const { access_token, refresh_token: newRefresh } = await res.json();
+  const { accessToken: newAccess, refresToken: newRefresh } = await res.json();
 
-  cookieStore.set('access_token', access_token, {
+  cookieStore.set('access_token', newAccess, {
     path: '/',
     secure: true,
     sameSite: 'strict',
@@ -38,7 +39,7 @@ export async function getValidAccessToken(): Promise<string | null> {
     httpOnly: true,
   });
 
-  return access_token;
+  return newAccess;
 }
 
 function checkIfExpired(token: string): boolean {

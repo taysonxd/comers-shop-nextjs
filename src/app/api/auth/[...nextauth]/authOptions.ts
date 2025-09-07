@@ -26,9 +26,12 @@ export const authOptions = {
             credentials: 'include',
             body: JSON.stringify({ idToken: account.id_token }),
           }).then(res => res.json());
+          
+          const { data, success, message } = response;
 
-          const { data } = response;
-                           
+          if( !success )
+            throw new Error(message);            
+                              
           if (data.accessToken && data.refreshToken) {
             token.accessToken = data.accessToken;
             token.refreshToken = data.refreshToken;
