@@ -8,7 +8,7 @@ import { useUiStore } from "@/store"
 import { useCartStore } from "@/store/cart/cart-store"
 
 import Link from "next/link"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { IoCartOutline, IoSearchOutline } from "react-icons/io5"
 
 interface Props {    
@@ -23,22 +23,20 @@ const categories: Record<keyof typeof Category, string> = {
 }
 
 export const TopMenu = ({ cartItems = [] }: Props) => {
-    
-    const totalItems = useCartStore(state => state.totalItems ?? 0);
-    const { setCartItems, setTotalItems } = useCartStore();
+        
+    const { setCart } = useCartStore();
+    const totalItems = useCartStore(state => state.getTotalItems());
     
     const { openSideMenu } = useUiStore();            
-
-    useEffect(() => {
-        const totalQuantity = cartItems.reduce((prevValue, currentValue) => prevValue + currentValue.quantity , 0);
-        
-        setTotalItems(totalQuantity);
-        setCartItems(cartItems);  
-    }, [cartItems, totalItems, setCartItems, setTotalItems]);
+    const [loaded, setLoaded] = useState(false)
+    
+    useEffect(() => {                        
+        setCart(cartItems);  
+        setLoaded(true);
+    }, [cartItems, setCart]);
         
     return (
-        <nav className="flex px-5 justify-between items-center w-full">
-
+        <nav className="fixed bg-white top-0 z-10 flex px-5 justify-between items-center w-full">
             <div>
                 <Link href="/">
                     <span className={`${ titleFont.className} antialiased font-bold`}>Comers</span>
@@ -61,10 +59,10 @@ export const TopMenu = ({ cartItems = [] }: Props) => {
 
             <div className="flex items-center">
                 
-                <Link href="/cart">
+                <Link href={ (loaded && totalItems > 0 ) ? "/cart" : '/empty' }>
                     <div className="relative">
                         {
-                            !!totalItems && (
+                            (loaded && totalItems > 0) && (
                                 <span className="absolute text-xs px-1 rounded-full font-bold -top-2 -right-2 bg-blue-700 text-white">
                                     { totalItems }
                                 </span>

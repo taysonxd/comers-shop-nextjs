@@ -24,7 +24,7 @@ export const QuantitySelector = ({ quantity, onChangeQuantity }: Props) => {
 
     return (
         <div className="flex">
-            <button onClick={() => updateQuantity( -1 ) }>
+            <button onClick={() => updateQuantity( -1 ) } className="cursor-pointer">
                 <IoRemoveCircleOutline size={30} />
             </button>
 
@@ -32,7 +32,7 @@ export const QuantitySelector = ({ quantity, onChangeQuantity }: Props) => {
                 { displayQuantity }
             </div>
 
-            <button onClick={() => updateQuantity( +1 ) }>
+            <button onClick={() => updateQuantity( +1 ) } className="cursor-pointer">
                 <IoMdAddCircleOutline size={30} />
             </button>
         </div>

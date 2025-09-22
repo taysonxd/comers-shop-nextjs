@@ -13,8 +13,8 @@ export const CartItemsList = () => {
 
     const router = useRouter();
 
-    const cartItemsStore = useCartStore(state => state.items) ?? [];
-    const { setCartItems, setTotalItems } = useCartStore();
+    const cartItemsStore = useCartStore(state => state.cart) ?? [];
+    const { setCart } = useCartStore();
 
     const onUpdateCartItem = async (itemId: string, quantity: number) => {
                 
@@ -27,8 +27,7 @@ export const CartItemsList = () => {
             return item;
         });
 
-        setCartItems( updatedCartItems )
-        setTotalItems( updatedCartItems.reduce((prevValue, currentValue) => prevValue + currentValue.quantity , 0) );
+        setCart( updatedCartItems )        
         router.refresh();
     }
      
@@ -39,8 +38,7 @@ export const CartItemsList = () => {
                 
         const updatedCartItems = cartItemsStore?.filter(item => item.id !== itemId);
 
-        setCartItems( updatedCartItems );
-        setTotalItems( updatedCartItems.reduce((prevValue, currentValue) => prevValue + currentValue.quantity , 0) );
+        setCart( updatedCartItems );        
         router.refresh();
     }
 
@@ -85,8 +83,8 @@ export const CartItemsList = () => {
                                 <p>${ product!.price }</p>
                             </div>
                             <div className="flex justify-between items-center">
-                                <QuantitySelector quantity={ quantity } onChangeQuantity={ quantity => onUpdateCartItem(id, quantity)} />
-                                <button className='underline cursor-pointer' onClick={() => removeItemFromCart(id) }>
+                                <QuantitySelector quantity={ quantity } onChangeQuantity={ quantity => onUpdateCartItem(id!, quantity)} />
+                                <button className='underline cursor-pointer' onClick={() => removeItemFromCart(id!) }>
                                     Remover
                                 </button>
                             </div>

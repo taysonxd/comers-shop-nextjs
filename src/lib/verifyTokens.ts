@@ -12,16 +12,18 @@ export async function getValidAccessToken(): Promise<string | null> {
     
   if (!isExpired) return accessToken!;
   
-  const res = await fetch(`${process.env.BACKEND_URL}/auth/refresh_access_token`, {
+  const res = await fetch(`${process.env.BACKEND_URL}/api/auth/refresh_access_token`, {
     method: 'POST',
     headers: {
       "Cookie": `refresh_token=${refreshToken}`,      
     },
     cache: 'no-store',
   });
-
-  if (!res.ok)
+    
+  if (!res.ok) {
+    console.error(res.statusText)
     throw new Error("Token cannot be created");    
+  }
 
   const { accessToken: newAccess, refresToken: newRefresh } = await res.json();
 
@@ -43,10 +45,10 @@ export async function getValidAccessToken(): Promise<string | null> {
 }
 
 function checkIfExpired(token: string): boolean {
-  try {
+  try {    
     const payload = jwt.decode(token) as { exp: number };        
     return payload.exp * 1000 < Date.now();
-  } catch {
+  } catch(Exception) {    
     return true;
   }
 }

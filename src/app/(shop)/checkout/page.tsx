@@ -1,9 +1,6 @@
-import Link from 'next/link';
 import { Title } from '../../../components/ui/title/Title';
 
-import Image from 'next/image';
 import { CheckoutItemsList, CheckoutSummary } from '@/components';
-
 
 export default function() {
   return (
@@ -16,10 +13,8 @@ export default function() {
           {/* Items */}
           <CheckoutItemsList />          
 
-          {/* Checkout - Resumen de las ordenes */}
-          <div className='bg-white rounded-xl shadow-xl p-7 h-fit'>
-            <CheckoutSummary />
-          </div>
+          {/* Checkout - Resumen de las ordenes */}          
+          <CheckoutSummary />          
 
         </div>
       </div>

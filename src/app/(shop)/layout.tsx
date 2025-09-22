@@ -6,12 +6,11 @@ export default async function ShopLayout({ children }: { children: React.ReactNo
   const cartItems = await getCartItems();
         
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
+      <TopMenu cartItems={ cartItems } />      
+      <Sidebar />      
 
-      <TopMenu cartItems={ cartItems } />
-      <Sidebar />
-
-      <div className="px-2 sm:px-10">
+      <div className="pt-14 px-2 sm:px-10">
         { children }
       </div>
 

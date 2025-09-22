@@ -8,22 +8,27 @@ import { useEffect, useState } from "react";
 export const CheckoutSummary = () => {
     const { data: session } = useSession();
 
-    const cartItemsStore = useCartStore((state) => state.items ?? []);
-    const totalItems = useCartStore((state) => state.totalItems) ?? 0;
+    const { cart } = useCartStore();
+    const totalItems = useCartStore((state) => state.getTotalItems());
     const [subTotal, setSubtotal] = useState(0);
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         setSubtotal(
-        cartItemsStore.reduce(
+            cart.reduce(
             (prevValue, currentValue) =>
             prevValue +
             currentValue.quantity * Number(currentValue.product!.price),
             0
         ));
-    }, [cartItemsStore]);
+        setLoaded(true);
+    }, [cart]);
+
+    if( !loaded )
+        return (<></>);
 
     return (
-        <>
+        <div className='bg-white rounded-xl shadow-xl p-7 h-fit'>
             <h2 className="text-2xl mb-2">Dirección de entrega</h2>
 
             <div className="mb-10">
@@ -70,6 +75,6 @@ export const CheckoutSummary = () => {
                     Confirmar orden
                 </Link>
             </div>
-        </>
+        </div>
     );
 };

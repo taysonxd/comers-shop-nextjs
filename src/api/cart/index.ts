@@ -22,7 +22,7 @@ export const updateQuantityCartItem = async ( itemId: string, quantity: number )
     };        
         
     const response = await fetchWithSession(`${env.BACKEND_URL}/api/cart`, {
-        method: 'PUT',        
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -49,14 +49,14 @@ export const addItemCart = async ( productId: number, quantity: number ): Promis
             'Content-Type': 'application/json'
         }
     })
-
+    
     if (!response.success)
         throw new Error(response.message);
 
     return response.data;
 }
 
-export const deleteItemCart = async (id: string): Promise<boolean> => {
+export const deleteItemCart = async (id: number): Promise<boolean> => {
     
     const response = await fetchWithSession(`${env.BACKEND_URL}/api/cart/${id}`, {
         method: 'DELETE',        

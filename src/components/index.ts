@@ -6,6 +6,7 @@ export * from './product/quantity-selector/QuantitySelector';
 
 export * from './cart/cart-items-list/CartItemsList';
 export * from './cart/cart-summary/CartSummary';
+export * from './cart/add-to-cart-button/AddToCartButton';
 
 export * from './checkout/checkout-items-list/CheckoutItemsList';
 export * from './checkout/checkout-summary/CheckoutSummary';

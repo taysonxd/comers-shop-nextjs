@@ -42,7 +42,7 @@ export const LogoutButton = () => {
             className="px-4 py-3 cursor-pointer flex items-center space-x-2 rounded-md text-gray-500 group"
         >
             <CiLogout size={25} />
-            <span className="group-hover:text-gray-800 font-semibold text-xl">Logout</span>
+            <span className="group-hover:text-gray-800 font-semibold text-xl">Salir</span>
         </button>
     )
 }

@@ -6,7 +6,7 @@ import { CartItemsList, CartSummary, QuantitySelector } from '@/components';
 export default function() {
 
   return (
-    <div className="flex justify-center items-center mb-72 px-10 sm:px-0">
+    <div className="flex justify-center items-center px-10 sm:px-0">
       <div className="flex flex-col w-[1000px]">
         <Title title="Carrito" />
     
@@ -15,10 +15,8 @@ export default function() {
           {/* Items */}
           <CartItemsList />          
 
-          {/* Checkout - Resumen de las ordenes */}
-          <div className='bg-white rounded-xl shadow-xl p-7 h-fit'>
+          {/* Checkout - Resumen de las ordenes */}          
             <CartSummary />
-          </div>
         </div>
       </div>
     </div>

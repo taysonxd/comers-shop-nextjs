@@ -29,7 +29,8 @@ export const getCartItems = async ():Promise<CartItem[]> => {
 }
 
 export const updateCartItems = async (itemId: string, quantity: number = 1) => {    
-    try {                
+    try {
+                
         const cartItem = await api.updateQuantityCartItem(itemId, quantity)
     
         return cartItem
@@ -40,7 +41,7 @@ export const updateCartItems = async (itemId: string, quantity: number = 1) => {
 }
 
 export const setProductToCart = async (productId: number, quantity: number = 1) => {    
-    try {
+    try {                
         const cartItem = await api.addItemCart(productId, quantity)
                 
         return cartItem;

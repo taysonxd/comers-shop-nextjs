@@ -15,7 +15,8 @@ export async function fetchWithSession(url: string, options: RequestInit = {}): 
       ...options.headers,      
     },
   });
-
-  const data = await result.json();
-  return data;
+  
+  return result.status == 204
+    ? result
+    : result.json()    
 }

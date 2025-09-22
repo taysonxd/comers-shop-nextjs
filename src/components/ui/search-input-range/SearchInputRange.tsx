@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-import { IoArrowUndoOutline, IoCloseOutline } from 'react-icons/io5';
+import { IoCloseOutline } from 'react-icons/io5';
 
 import { Range } from 'react-range';
 import { useDebouncedCallback } from 'use-debounce';
@@ -18,8 +18,8 @@ export const SearchInputRange = () => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
-
-    const [values, setValues] = useState([1, 1000]);
+        
+    const [values, setValues] = useState([ searchParams.get('minPrice') ?? 1, searchParams.get('maxPrice') ?? 1000 ]);
 
     const handleSearch = useDebouncedCallback(([minVal, maxVal]: RangeValues) => {
         const params = new URLSearchParams(searchParams);
@@ -30,6 +30,7 @@ export const SearchInputRange = () => {
         if (maxVal && maxVal < MAX) params.set('maxPrice', maxVal.toString());
         else params.delete('maxPrice');
         
+        params.delete('page');
         replace(`${pathname}?${params.toString()}`);
     }, 350);
 

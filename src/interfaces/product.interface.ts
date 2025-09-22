@@ -9,6 +9,14 @@ export interface Product {
     rating:      Rating;
 }
 
+export interface cartProduct {
+    id: string;
+    title: string;    
+    price: number;    
+    quantity: number;
+    image: string;
+}
+
 export enum Category {
     electronics = "electronics",
     jewelery = "jewelery",

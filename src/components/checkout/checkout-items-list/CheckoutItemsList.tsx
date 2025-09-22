@@ -1,50 +1,15 @@
 'use client'
 
-import { CartItem } from "@/interfaces/cart.interface"
 import { useCartStore } from "@/store/cart/cart-store"
 import Image from "next/image"
-import { QuantitySelector } from "../../product/quantity-selector/QuantitySelector"
-import { removeProductFromCart, updateCartItems } from "@/cart/actions/actions"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { IoCartOutline } from "react-icons/io5"
 
 export const CheckoutItemsList = () => {
 
-    const router = useRouter();
+    const { cart } = useCartStore();
 
-    const cartItemsStore = useCartStore(state => state.items) ?? [];
-    const { setCartItems, setTotalItems } = useCartStore();
-
-    const onUpdateCartItem = async (itemId: string, quantity: number) => {
-                
-        const cartItem = await updateCartItems(itemId, quantity!);
-                
-        if( !cartItem ) return;   
-                
-        const updatedCartItems = cartItemsStore?.map(item => {
-            if( item.id === cartItem.id ) return cartItem;
-            return item;
-        });
-
-        setCartItems( updatedCartItems )
-        setTotalItems( updatedCartItems.reduce((prevValue, currentValue) => prevValue + currentValue.quantity , 0) );
-        router.refresh();
-    }
-     
-    const removeItemFromCart = async (itemId: string) => {
-        const cartItem = await removeProductFromCart(itemId!);
-                
-        if( !cartItem ) return;   
-                
-        const updatedCartItems = cartItemsStore?.filter(item => item.id !== itemId);
-
-        setCartItems( updatedCartItems );
-        setTotalItems( updatedCartItems.reduce((prevValue, currentValue) => prevValue + currentValue.quantity , 0) );
-        router.refresh();
-    }
-
-    if( !cartItemsStore.length )
+    if( !cart.length )
         return (
             <div className="flex flex-col items-center justify-center">
                 <IoCartOutline size={80} />                
@@ -64,7 +29,7 @@ export const CheckoutItemsList = () => {
           
             {/* Items */}
             {
-                cartItemsStore.map(({product, quantity, id}) => (
+                cart.map(({product, quantity, id}) => (
                     <div key={product!.id} className='flex mb-5'>
                         <div className="w-[150px]">
                             <Image

@@ -23,6 +23,17 @@ export const getProducts = async(queryParams: {
     return response.data;
 }
 
+export const getProductById = async(id: string): Promise<Product> => {
+
+    const response = await fetch(`${env.BACKEND_URL}/api/products/${id}`,{
+        method: 'GET'
+    }).then(res => res.json());
+
+    if (!response.success)
+        throw new Error(response.message);
+    
+    return response.data
+}
 
 export const storeProduct = async({ title, price, description, category, image, rating }: Product): Promise<Product> => {
 
