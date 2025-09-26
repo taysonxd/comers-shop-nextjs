@@ -1,4 +1,4 @@
-import { getProductById } from "@/api";
+import { getProductById } from "@/services";
 import { ProductMobileSlideshow } from "@/components/product/slideshow/ProductMobileSlideshow";
 import { ProductSlideshow } from "@/components/product/slideshow/ProductSlideshow";
 import { titleFont } from "@/config/fonts";

@@ -24,12 +24,12 @@ export const AddToCartButton = ({ children, product, quantity = 1, className }: 
   const onAddToCart = async () => {
                 
     if (status === 'unauthenticated')
-        redirect('/api/auth/signin');
+      redirect('/api/auth/signin');
     
     const cartItem = await setProductToCart(product.id!, quantity);
-            
+        
     if( !cartItem ) return;   
-    
+        
     const updatedCartItems = [ cartItem, ...cartItems?.filter(item => item.id !== cartItem.id ) ];
     
     setCart( updatedCartItems )        

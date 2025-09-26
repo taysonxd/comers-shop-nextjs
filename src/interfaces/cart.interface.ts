@@ -11,7 +11,7 @@ export interface State {
         totalItems: number;
     };
 
-    addProductToCart: (product: cartProduct) => void;
+    addProductToCart: (product: CartItem) => void;
     updateProductQuantity: (product: CartItem, quantity: number) => void;
     removeProduct: (product: CartItem) => void;
 
@@ -20,9 +20,8 @@ export interface State {
 
 export interface CartItem {
     id?: string;
-    productId: string;
-    title: string;
-    price: number;
+    productId: number;
+    title: string;    
     quantity: number;
     product?: Product
 }

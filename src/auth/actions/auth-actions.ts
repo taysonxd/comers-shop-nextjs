@@ -1,6 +1,6 @@
 'use server';
 
-import { fetchWithSession } from '@/api/helper';
+import { fetchWithSession } from '@/services/helper';
 import { env } from '@/config/env';
 import { cookies } from 'next/headers';
 

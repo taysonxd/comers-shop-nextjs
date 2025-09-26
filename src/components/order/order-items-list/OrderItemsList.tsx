@@ -14,8 +14,8 @@ export const OrderItemsList = () => {
 
     const router = useRouter();
 
-    const cartItemsStore = useCartStore(state => state.items) ?? [];
-    const { setCartItems, setTotalItems } = useCartStore();
+    const cartItemsStore = useCartStore(state => state.cart);
+    const { setCart, getTotalItems } = useCartStore();
 
     const onUpdateCartItem = async (itemId: string, quantity: number) => {
                 
@@ -28,8 +28,7 @@ export const OrderItemsList = () => {
             return item;
         });
 
-        setCartItems( updatedCartItems )
-        setTotalItems( updatedCartItems.reduce((prevValue, currentValue) => prevValue + currentValue.quantity , 0) );
+        setCart( updatedCartItems );        
         router.refresh();
     }
      
@@ -40,26 +39,13 @@ export const OrderItemsList = () => {
                 
         const updatedCartItems = cartItemsStore?.filter(item => item.id !== itemId);
 
-        setCartItems( updatedCartItems );
-        setTotalItems( updatedCartItems.reduce((prevValue, currentValue) => prevValue + currentValue.quantity , 0) );
+        setCart( updatedCartItems );        
         router.refresh();
     }
 
     return (
         <div className='flex flex-col mt-5'>
-            <div
-              className={clsx(
-                "flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
-                {
-                  "bg-red-500": false,
-                  "bg-green-700": true
-                }
-              )}
-            >
-              <IoCardOutline size={25} />
-              <span className='ml-2'>Pagada</span>              
-            </div>
-          
+                      
             {/* Items */}
             {
                 cartItemsStore.map(({product, quantity, id}) => (

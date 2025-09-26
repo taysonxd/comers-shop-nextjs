@@ -1,7 +1,7 @@
 import { ProductosGrid, SearchInputRange, SearchInput, SortBySelect, Title, Pagination } from "@/components";
 import { Category } from "@/interfaces/product.interface";
 import { notFound } from "next/navigation";
-import * as api from '@/api'
+import * as api from '@/services'
 
 interface Props {
     params: Promise<{

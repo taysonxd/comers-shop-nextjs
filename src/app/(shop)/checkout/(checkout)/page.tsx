@@ -1,4 +1,4 @@
-import { Title } from '../../../components/ui/title/Title';
+import { Title } from '../../../../components/ui/title/Title';
 
 import { CheckoutItemsList, CheckoutSummary } from '@/components';
 

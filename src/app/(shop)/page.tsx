@@ -1,5 +1,5 @@
 import { Pagination, ProductosGrid, SearchInput, SearchInputRange, SortBySelect, Title } from "@/components";
-import * as api from '@/api'
+import * as api from '@/services'
 
 interface Props {
   searchParams: Promise<{

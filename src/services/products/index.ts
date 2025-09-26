@@ -43,7 +43,7 @@ export const storeProduct = async({ title, price, description, category, image, 
         method: 'POST',
         body: JSON.stringify(body),
         headers: {
-            'Content-Type': 'aplication/json'
+            'Content-Type': 'application/json'
         }
     }).then(res => res.json());
         

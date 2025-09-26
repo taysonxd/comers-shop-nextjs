@@ -1,43 +1,90 @@
 "use client";
 
+import { placeOrder } from "@/actions";
+import { ProductToOrder } from "@/interfaces";
+import { useAddressStore } from "@/store";
 import { useCartStore } from "@/store/cart/cart-store";
+import clsx from "clsx";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useShallow } from "zustand/shallow";
 
 export const CheckoutSummary = () => {
-    const { data: session } = useSession();
-
+    
+    const router = useRouter();
     const { cart } = useCartStore();
-    const totalItems = useCartStore((state) => state.getTotalItems());
-    const [subTotal, setSubtotal] = useState(0);
+    const { subTotal, tax, total, totalItems } = useCartStore(
+        useShallow((state) => state.getOrderSummary())
+    );
+    const clearCart = useCartStore(state => state.clearCart);
+    const {
+        firstName,
+        lastName,
+        address,
+        address2,
+        city,
+        countryId,
+        phone,
+        postalCode
+    } = useAddressStore( state => state.address );
+    
     const [loaded, setLoaded] = useState(false);
+    const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
-        setSubtotal(
-            cart.reduce(
-            (prevValue, currentValue) =>
-            prevValue +
-            currentValue.quantity * Number(currentValue.product!.price),
-            0
-        ));
         setLoaded(true);
-    }, [cart]);
+    }, []);
 
-    if( !loaded )
-        return (<></>);
+    const onPlaceOrder = async() => {
+        setErrorMessage('');
+        setIsPlacingOrder(true);
+
+        const productsToOrder = cart.map(item => ({
+            id: item.productId,
+            quantity: item.quantity,
+        })) as ProductToOrder[];
+        
+        const storedAddress = {
+            firstName,
+            lastName,
+            address,
+            address2,
+            city,
+            countryId,
+            phone,
+            postalCode
+        };
+        const resp = await placeOrder(storedAddress, productsToOrder);
+                
+        if( !resp.success ) {
+            setIsPlacingOrder(false);
+            setErrorMessage(resp.message);
+            return;
+        }
+        
+        setIsPlacingOrder(false);
+        clearCart();
+        router.replace(`/orders/${ resp.data?.order.id }`);
+    }
+
+    if (!loaded) return (<p>Cargando...</p>);
 
     return (
         <div className='bg-white rounded-xl shadow-xl p-7 h-fit'>
             <h2 className="text-2xl mb-2">Dirección de entrega</h2>
 
             <div className="mb-10">
-                <p className="text-xl">{ session?.user?.name }</p>
-                <p>+1 123 456 789</p>
-                <p>Av. Calle 200</p>
-                <p>Cdad. Montenegro</p>
-                <p>Cordoba</p>
-                <p>652965</p>
+                <p className="text-xl">
+                  { firstName } {lastName }
+                </p>
+                <p>{ address }</p>
+                <p>{ address2 }</p>
+                <p>{ city }, { countryId }</p>
+                <p>{ postalCode }</p>
+                <p>{ phone }</p>
             </div>
 
             <div className="w-full h-0.5 rounded bg-gray-200 mb-10" />
@@ -71,9 +118,17 @@ export const CheckoutSummary = () => {
                         </Link>
                     </span>
                 </p>
-                <Link className="flex btn-primary justify-center" href="/orders/253">
+                <span className="text-red-500">{ errorMessage }</span>
+                <button
+                    disabled={isPlacingOrder}
+                    onClick={onPlaceOrder}
+                    className={clsx({
+                        "btn-primary": !isPlacingOrder,
+                        "btn-disabled": isPlacingOrder,
+                    })}
+                >
                     Confirmar orden
-                </Link>
+                </button>
             </div>
         </div>
     );

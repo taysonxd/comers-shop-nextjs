@@ -1,73 +1,108 @@
 "use client";
 
+import { useAddressStore } from "@/store";
 import { useCartStore } from "@/store/cart/cart-store";
 import clsx from "clsx";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IoCardOutline } from "react-icons/io5";
+import { OrderStatus } from "../order-status/OrderStatus";
+import { currencyFormat } from "@/utils/currencyFormat";
 
-export const OrderSummary = () => {
+interface Props {
+  order: {
+      id: string;
+      subTotal: number;
+      tax: number;
+      total: number;
+      itemsInOrder: number;
+      isPaid: boolean;
+      createdAt: Date;
+      OrderAddress: Address;
+      OrderItem: {
+          id: string;
+          productId: string;
+          quantity: number;
+          size: string;
+          price: number;
+          image: string;
+      }[]
+  };
+}
+
+export const OrderSummary = ({ order }: Props) => {
     const { data: session } = useSession();
-
-    const cartItemsStore = useCartStore((state) => state.items ?? []);
-    const totalItems = useCartStore((state) => state.totalItems) ?? 0;
+  console.log(order);
+  
+    const cartItemsStore = useCartStore((state) => state.cart);
+    const {
+      firstName,
+      lastName,
+      address,
+      address2,
+      city,
+      countryId,
+      phone,
+      postalCode
+    } = useAddressStore( state => state.address );
+    const { getTotalItems } = useCartStore();
     const [subTotal, setSubtotal] = useState(0);
+    const [loaded, setLoaded] = useState(false)
 
     useEffect(() => {
         setSubtotal(
-        cartItemsStore.reduce(
-            (prevValue, currentValue) =>
-            prevValue +
-            currentValue.quantity * Number(currentValue.product!.price),
-            0
-        )
+          cartItemsStore.reduce(
+            (prevValue, currentValue) => prevValue + currentValue.quantity * Number(currentValue.product!.price), 0
+          )
         );
+        setLoaded(true);
     }, [cartItemsStore]);
-
+        
     return (
         <>
             <h2 className="text-2xl mb-2">Dirección de entrega</h2>
 
             <div className="mb-10">
-                <p className="text-xl">{ session?.user?.name }</p>
-                <p>+1 123 456 789</p>
-                <p>Av. Calle 200</p>
-                <p>Cdad. Montenegro</p>
-                <p>Cordoba</p>
-                <p>652965</p>
+                <p className="text-xl">
+                  { firstName } {lastName }
+                </p>
+                <p>{ address }</p>
+                <p>{ address2 }</p>
+                <p>{ city }, { countryId }</p>
+                <p>{ postalCode }</p>
+                <p>{ phone }</p>
             </div>
 
             <div className="w-full h-0.5 rounded bg-gray-200 mb-10" />
 
             <h2 className="text-2xl mb-2">Resumen de la orden</h2>
             <div className="grid grid-cols-2">
-                <span>No. Productos</span>
-                <span className="text-right">{totalItems} articulos</span>
+              <span>No. Productos</span>
+              <span className="text-right">
+                {order.subTotal === 1
+                  ? "1 artículo"
+                  : `${order.itemsInOrder} artículos`}
+              </span>
 
-                <span>Subtotal</span>
-                <span className='text-right'>$ { subTotal.toFixed(2) } </span>
+              <span>Subtotal</span>
+              <span className="text-right">{currencyFormat(order.subTotal)}</span>
 
-                <span>Impuestos (15%)</span>
-                <span className='text-right'>$ { (subTotal * 0.15).toFixed(2) }</span>
+              <span>Impuestos</span>
+              <span className="text-right">{currencyFormat(order.tax)}</span>
 
-                <span className="mt-5 text-2xl">Total:</span>
-                <span className='mt-5 text-2xl text-right'>$ { ( subTotal + (subTotal * 0.15) ).toFixed(2) }</span>
+              <span className="mt-5 text-2xl">Total</span>
+              <span className="mt-5 text-2xl text-right">
+                {currencyFormat(order.total)}
+              </span>
             </div>
 
             <div className='mt-5 mb-2 w-full'>
-              <div
-                className={clsx(
-                  "flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
-                  {
-                    "bg-red-500": false,
-                    "bg-green-700": true
-                  }
-                )}
-              >
-                <IoCardOutline size={25} />
-                <span className='ml-2'>Pagada</span>              
-              </div>
+            {order.isPaid ? (
+              <OrderStatus isPaid={order.isPaid} />
+            ) : (
+              <>Boton</>
+              // <PayPalButton orderId={order!.id} amount={order!.total} />
+            )}
             </div>
         </>
     );

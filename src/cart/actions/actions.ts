@@ -1,7 +1,7 @@
 'use server'
 
 import { CartItem } from '@/interfaces/cart.interface';
-import * as api from '../../api';
+import * as api from '../../services';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 

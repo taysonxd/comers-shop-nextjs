@@ -1,7 +1,6 @@
-import Link from 'next/link';
 import { Title } from '../../../components/ui/title/Title';
 
-import { CartItemsList, CartSummary, QuantitySelector } from '@/components';
+import { CartItemsList, CartSummary } from '@/components';
 
 export default function() {
 
@@ -16,7 +15,7 @@ export default function() {
           <CartItemsList />          
 
           {/* Checkout - Resumen de las ordenes */}          
-            <CartSummary />
+          <CartSummary />
         </div>
       </div>
     </div>

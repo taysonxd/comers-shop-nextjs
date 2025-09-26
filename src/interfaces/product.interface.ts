@@ -29,3 +29,7 @@ export interface Rating {
     count: number;
 }
 
+export interface ProductToOrder {
+    id: number;
+    quantity: number;    
+}

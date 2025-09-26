@@ -43,8 +43,9 @@ export const CartSummary = () => {
             {
                 !totalItems
                     ? (<button className="w-full bg-gray-300 text-center rounded text-1xl py-2" >Checkout</button>)
-                    : (<Link className="flex btn-primary justify-center" href="/checkout" >
-                        Checkout
+                    : (
+                        <Link className="flex btn-primary justify-center" href="/checkout/address" >
+                            Checkout
                         </Link>
                     )
             }   

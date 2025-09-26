@@ -29,8 +29,8 @@ export const CheckoutItemsList = () => {
           
             {/* Items */}
             {
-                cart.map(({product, quantity, id}) => (
-                    <div key={product!.id} className='flex mb-5'>
+                cart.map(({productId, product, quantity, id}) => (
+                    <div key={productId} className='flex mb-5'>
                         <div className="w-[150px]">
                             <Image
                                 src={product!.image}
